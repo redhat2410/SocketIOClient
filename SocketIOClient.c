@@ -26,3 +26,29 @@ uint8_t ConnectSocketIO(char* host, int port){
 	//receive response from server
 	return readHandshake();	
 }
+/*The function sendHandshake implement send request to server with contents
+ *GET /socket.io/1/?EIO=3&transport=polling&b64=true HTTP/1.1\r\n
+ *HOST: hostname
+ *Origin: DucVu
+ *Connection: keep-alive
+ *
+ * ---Parameter char* host -- ip address or hostname domain
+ * ---Return value void
+ * */
+void sendHandshake(char* host){
+	char t_request[DATA_BUFFER_LEN] = "GET /socket.io/1/?EIO=3&transport=polling&b64=true HTTP/1.1\r\n";
+	char* request = strcat(t_request, "HOST: ");
+	request = strcat(request, host);
+	request = strcat(request, "\r\n");
+	request = strcat(request, "Origin: DucVu\r\n");
+	request = strcat(request, "Connection: keep-alive\r\n");
+	//Send request to server
+	sendSOCKET(request);
+#ifdef DEBUG
+	printf("%s", request);
+#endif
+}
+
+
+
+
